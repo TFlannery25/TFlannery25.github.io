@@ -140,8 +140,8 @@
   <a href="#hero" class="nav-logo">TF</a>
   <ul class="nav-links">
     <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Projects</a></li>
+    <li><a href="#projects">Games</a></li>
     <li><a href="#leadership">Leadership</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -210,11 +210,18 @@
 </section>
 
 <section id="experience">
-  <p class="section-label">Background</p>
-  <h2 class="section-title">Project Experience</h2>
+  <p class="section-label">Development Projects</p>
+  <h2 class="section-title">Projects</h2>
+  <div class="project-filter">
+    <button class="filter-btn active" data-filter-exp="all">All</button>
+    <button class="filter-btn" data-filter-exp="embedded">Embedded Systems</button>
+    <button class="filter-btn" data-filter-exp="graphics">Graphics</button>
+    <button class="filter-btn" data-filter-exp="database">Database</button>
+    <button class="filter-btn" data-filter-exp="software">Software</button>
+  </div>
   <div class="exp-grid">
 
-    <div class="exp-item reveal">
+    <div class="exp-item reveal" data-exp-category="embedded">
       <div class="exp-date">Spring 2026</div>
       <div class="exp-title">Blackjack Table — Embedded Systems</div>
       <div class="exp-sub">UC Riverside &middot; C++, HTML &middot; Raspberry Pi Pico 2W, iCESugar-Pro FPGA, 480&times;272 RGB LCD</div>
@@ -227,7 +234,7 @@
       <div class="exp-video"><iframe src="https://www.youtube.com/embed/0oR6PNiXP2Y" allowfullscreen loading="lazy" title="Blackjack Table Demo"></iframe></div>
     </div>
 
-    <div class="exp-item reveal">
+    <div class="exp-item reveal" data-exp-category="graphics">
       <div class="exp-date">Winter 2025 – Present</div>
       <div class="exp-title">OpenGL Rendering Engine — Personal Project</div>
       <div class="exp-sub">C++ &middot; OpenGL &middot; SDL &middot; GLAD &mdash; actively in development</div>
@@ -238,7 +245,7 @@
       </ul>
     </div>
 
-    <div class="exp-item reveal">
+    <div class="exp-item reveal" data-exp-category="database">
       <div class="exp-date">Winter 2025</div>
       <div class="exp-title">Car Repair Database Application</div>
       <div class="exp-sub">UC Riverside &middot; Java &middot; JDBC &middot; PostgreSQL</div>
@@ -250,7 +257,7 @@
       </ul>
     </div>
 
-    <div class="exp-item reveal">
+    <div class="exp-item reveal" data-exp-category="graphics">
       <div class="exp-date">Fall 2025</div>
       <div class="exp-title">Graphics Programming Projects</div>
       <div class="exp-sub">UC Riverside &middot; C++ &middot; 3D Rendering Pipeline</div>
@@ -260,7 +267,7 @@
       </ul>
     </div>
 
-    <div class="exp-item reveal">
+    <div class="exp-item reveal" data-exp-category="embedded">
       <div class="exp-date">Spring 2025</div>
       <div class="exp-title">Color Block — Embedded Systems</div>
       <div class="exp-sub">UC Riverside &middot; C &middot; Custom Hardware Design</div>
@@ -272,7 +279,7 @@
       <div class="exp-video"><iframe src="https://www.youtube.com/embed/S0i3sh4wQ30" allowfullscreen loading="lazy" title="Color Block Demo"></iframe></div>
     </div>
 
-    <div class="exp-item reveal">
+    <div class="exp-item reveal" data-exp-category="software">
       <div class="exp-date">Spring 2024</div>
       <div class="exp-title">Asciimon — Software Development</div>
       <div class="exp-sub">UC Riverside &middot; C++ &middot; Google Test &middot; Agile/Scrum &middot; Team of 4</div>
@@ -288,8 +295,8 @@
 </section>
 
 <section id="projects">
-  <p class="section-label">Selected Work</p>
-  <h2 class="section-title">Game Projects</h2>
+  <p class="section-label">Game Development</p>
+  <h2 class="section-title">Games</h2>
   <div class="project-filter">
     <button class="filter-btn active" data-filter="all">All</button>
     <button class="filter-btn" data-filter="3d">3D</button>
@@ -426,7 +433,20 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  const filterBtns = document.querySelectorAll('.filter-btn');
+  const expBtns = document.querySelectorAll('[data-filter-exp]');
+  const expItems = document.querySelectorAll('[data-exp-category]');
+  expBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      expBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filterExp;
+      expItems.forEach(item => {
+        item.style.display = (filter === 'all' || item.dataset.expCategory === filter) ? '' : 'none';
+      });
+    });
+  });
+
+  const filterBtns = document.querySelectorAll('[data-filter]');
   const projectCards = document.querySelectorAll('.project-card');
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
